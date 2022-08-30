@@ -1,16 +1,20 @@
 ﻿using DixitOnline.Models.PlayerData;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DixitOnline.DataAccess.Context
 {
     public class DixitOnlineDbContext : DbContext
     {
+        private readonly string _connectionString;
+
+        public DixitOnlineDbContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\MYBASE;Database=DixitOnline;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(_connectionString);
         }
 
         public DbSet<PlayerModel> Players { get; set; }
