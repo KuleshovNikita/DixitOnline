@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import './css-common/InputField.css';
-import './css-common/Button.css';
+import Button from './components/Button/Button';
 import PopUpMessage from './components/PopUpMessage/PopUpMessage';
 
 function App() {
@@ -12,8 +12,8 @@ function App() {
     <div className="App">
         <h1>Dixit Online</h1>
         <input className="InputField" placeholder='Enter your name' type={"text"} onChange={handleChange}/>
-        <button className='Button' onClick={registerNewPlayer}>Start New Game</button> 
-        <button className='Button' >Connect To The Room</button> 
+        <Button onClick={registerNewPlayer}>Start New Game</Button> 
+        <Button>Connect To The Room</Button>
         { isError && <PopUpMessage message="Name cannot be empty!" type='error' showMessage={() => showPopup(false)}/> }
     </div>
   );
