@@ -1,0 +1,67 @@
+.popup {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.PopUpBack {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.ERROR {
+    border: 5px red solid;
+}
+
+.INFO {
+    border: 5px blue solid;
+}
+
+.WARNING {
+    border: 5px orange solid;
+}
+
+#message-text {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-size: 30px;
+    text-align: justify;
+}
+
+#message-btn-box {
+    text-align: end;
+}
+
+#message-btn {
+    font-size: 25px;
+}
+
+#message-type {
+    font-size: 35px;
+    text-align: left;
+}
+
+.popup-enter {
+    opacity: 0;
+}
+
+.popup-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+  
+.popup-exit {
+    opacity: 1;
+}
+
+.popup-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+}

@@ -1,0 +1,14 @@
+.Button {
+    background-image: linear-gradient(to right, #441613 0%, #327e00  51%, #b4c100  80%);
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px black solid;
+    background-size: 200% auto;
+    transition: 0.5s;
+    color: whitesmoke;
+}
+
+.Button:hover {
+    background-position: right;
+    color: black;   
+}
