@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DixitOnline.Core\DixitOnline.Core.csproj" />
     <ProjectReference Include="..\DixitOnline.Models\DixitOnline.Models.csproj" />
   </ItemGroup>
 

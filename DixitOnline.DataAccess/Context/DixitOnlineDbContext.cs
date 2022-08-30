@@ -1,5 +1,6 @@
 ﻿using DixitOnline.Models.PlayerData;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal;
 
 namespace DixitOnline.DataAccess.Context
 {
@@ -7,9 +8,11 @@ namespace DixitOnline.DataAccess.Context
     {
         private readonly string _connectionString;
 
-        public DixitOnlineDbContext(string connectionString)
+        public DbSet<PlayerModel> Players { get; set; }
+
+        public DixitOnlineDbContext(DbContextOptions<DixitOnlineDbContext> options)
         {
-            _connectionString = connectionString;
+            _connectionString = options.GetExtension<SqlServerOptionsExtension>().ConnectionString;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -17,6 +20,14 @@ namespace DixitOnline.DataAccess.Context
             optionsBuilder.UseSqlServer(_connectionString);
         }
 
-        public DbSet<PlayerModel> Players { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<PlayerModel>(entity =>
+            {
+                entity.Property<int>("PlayerId").ValueGeneratedOnAdd();
+            });
+        }
     }
 }

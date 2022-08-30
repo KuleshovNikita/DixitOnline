@@ -12,10 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Func" Version="0.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DixitOnline.Business\DixitOnline.Business.csproj" />
+    <ProjectReference Include="..\DixitOnline.Core\DixitOnline.Core.csproj" />
     <ProjectReference Include="..\DixitOnline.DataAccess\DixitOnline.DataAccess.csproj" />
     <ProjectReference Include="..\DixitOnline.Models\DixitOnline.Models.csproj" />
   </ItemGroup>

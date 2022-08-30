@@ -10,6 +10,7 @@ namespace DixitOnline.Models.PlayerData
         public int PlayerId { get; set; }
 
         [MaxLength(20)]
+        [MinLength(1)]
         public string Name { get; set; }
     }
 }

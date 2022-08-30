@@ -1,4 +1,7 @@
+using DixitOnline.Api.Extensions;
+using DixitOnline.Business.Modules;
 using DixitOnline.DataAccess.Context;
+using DixitOnline.DataAccess.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,7 +37,10 @@ namespace DixitOnline.Api
 
             services.AddControllers();
 
-            services.AddScoped(_ => new DixitOnlineDbContext(Configuration.GetConnectionString("DataBase")));
+            services.AddModule<BusinessModule>();
+            services.AddModule<DataAccessModule>();
+
+            services.AddDbContext<DixitOnlineDbContext>(t => t.UseSqlServer(Configuration.GetConnectionString("DataBase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

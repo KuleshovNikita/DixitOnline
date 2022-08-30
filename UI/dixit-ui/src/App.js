@@ -31,7 +31,7 @@ function App() {
       setIsError(true);
     }
 
-    var player = {Name: playerName, PlayerId: 1};
+    var player = {Name: playerName};
 
     fetch('https://localhost:44303/players/newPlayer',
     { method: 'POST',
