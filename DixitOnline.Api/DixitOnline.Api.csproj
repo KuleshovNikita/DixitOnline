@@ -5,11 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DixitOnline.Models\DixitOnline.Models.csproj" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DixitOnline.DataAccess\DixitOnline.DataAccess.csproj" />
+    <ProjectReference Include="..\DixitOnline.Models\DixitOnline.Models.csproj" />
   </ItemGroup>
 
 
