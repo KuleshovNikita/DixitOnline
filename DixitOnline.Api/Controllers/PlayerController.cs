@@ -15,5 +15,12 @@ namespace DixitOnline.Api.Controllers
                 PlayerId = 1
             };
         }
+
+        [HttpPost]
+        [Route("newPlayer")]
+        public void RegisterNewPlayer([FromBody] PlayerModel player)
+        {
+
+        }   
     }
 }
