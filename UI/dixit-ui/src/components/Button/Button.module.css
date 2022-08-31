@@ -17,5 +17,6 @@
 }
 
 .btn:disabled {
-    background-color: gray;
+    background-color: gainsboro;
+    color: gray;
 }
