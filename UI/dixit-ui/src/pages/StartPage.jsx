@@ -1,12 +1,12 @@
 import React from 'react';
 import InputField from '../components/InputField/InputField';
 import Button from '../components/Button/Button';
-import PopUpMessage from '../components/PopUpMessage/PopUpMessage';
 import styles from './StartPage.module.css';
+import { useToasts } from 'react-toast-notifications';
 
 function StartPage() {
+  const { addToast } = useToasts();
   const [playerName, setPlayerName] = React.useState('');
-  const [isError, setIsError] = React.useState(false);
 
   return (
     <div className={styles.page}>
@@ -19,15 +19,8 @@ function StartPage() {
         />
         <Button onClick={registerNewPlayer}>Start New Game</Button> 
         <Button>Connect To The Room</Button>
-        { isError && 
-            <PopUpMessage message="Name cannot be empty!" type='error' showMessage={() => showPopup(false)}/> 
-        }
     </div>
   );
-
-  function showPopup(toggle) {
-    setIsError(toggle);
-  }
 
   function handleChange(event) {
     setPlayerName(event.target.value);
@@ -35,7 +28,7 @@ function StartPage() {
 
   function registerNewPlayer(event) {
     if(playerName === '') {
-      setIsError(true);
+      addToast("The name cannot be empty!", { appearance: 'error'} );
     }
 
     var player = {Name: playerName};
