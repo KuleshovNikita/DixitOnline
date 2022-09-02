@@ -19,7 +19,9 @@ function StartPage() {
         />
         <Button onClick={registerNewPlayer}>Start New Game</Button> 
         <Button>Connect To The Room</Button>
-        { isError && <PopUpMessage message="Name cannot be empty!" type='error' showMessage={() => showPopup(false)}/> }
+        { isError && 
+            <PopUpMessage message="Name cannot be empty!" type='error' showMessage={() => showPopup(false)}/> 
+        }
     </div>
   );
 
@@ -38,7 +40,7 @@ function StartPage() {
 
     var player = {Name: playerName};
 
-    fetch('https://localhost:44303/players/newPlayer',
+    fetch(process.env.REACT_APP_API_URL + 'players/newPlayer',
     { method: 'POST',
       headers: {
         'Accept': 'application/json',
