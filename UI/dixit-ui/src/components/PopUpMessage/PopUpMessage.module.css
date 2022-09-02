@@ -28,22 +28,22 @@
     border: 5px orange solid;
 }
 
-#message-text {
+#messageText {
     grid-column-start: 1;
     grid-column-end: 3;
     font-size: 30px;
     text-align: justify;
 }
 
-#message-btn-box {
+#messageBtnBox {
     text-align: end;
 }
 
-#message-btn {
+#messageBtn {
     font-size: 25px;
 }
 
-#message-type {
+#messageType {
     font-size: 35px;
     text-align: left;
 }

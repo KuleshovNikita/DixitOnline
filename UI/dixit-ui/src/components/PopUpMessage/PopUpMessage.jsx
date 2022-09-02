@@ -1,5 +1,5 @@
 import React from 'react';
-import './PopUpMessage.jsx.css';
+import styles from './PopUpMessage.module.css';
 import {
   CSSTransition,
   TransitionGroup,
@@ -17,22 +17,24 @@ const PopUpMessage = function ({message, type, showMessage}) {
   }
 
   function normalizeMessageType(messageType) {
-    return messageType[0].toUpperCase() + messageType.substring(1);
+    return messageType[0].toUpperCase() + messageType.substring(1).toLowerCase();
   }
+
+  console.log(normalizeMessageType(type));
 
   return (
     <TransitionGroup>
-      <CSSTransition timeout={500} classNames="popup">
-        <div className={"popup" + " " + type.toUpperCase()}>
-          <div id='message-type'>
+      <CSSTransition timeout={500} classNames={styles.popup}>
+        <div className={[styles.popup, styles[type.toUpperCase()]].join(" ")}>
+          <div id={styles.messageType}>
             {normalizeMessageType(type)}
           </div>
-          <div id='message-btn-box'>
-            <button id='message-btn' onClick={showMessage}>
+          <div id={styles.messageBtnBox}>
+            <button id={styles.messageBtn} onClick={showMessage}>
               <b>Close</b>
             </button>
           </div>
-          <div id='message-text'>{message}</div>
+          <div id={styles.messageText}>{message}</div>
         </div>
       </CSSTransition>
     </TransitionGroup>
