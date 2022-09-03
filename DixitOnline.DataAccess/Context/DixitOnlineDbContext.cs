@@ -24,6 +24,7 @@ namespace DixitOnline.DataAccess.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<PlayerModel>().HasKey(x => x.PlayerId);
             modelBuilder.Entity<PlayerModel>(entity =>
             {
                 entity.Property<int>("PlayerId")
