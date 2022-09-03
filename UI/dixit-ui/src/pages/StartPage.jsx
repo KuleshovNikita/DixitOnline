@@ -5,6 +5,7 @@ import styles from './StartPage.module.css';
 import { throwToast } from '../hooks/Toast/Toast';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { RegisterPlayer } from '../Clients/PlayerClient';
 
 function StartPage() {
   const [playerName, setPlayerName] = React.useState('');
@@ -35,14 +36,7 @@ function StartPage() {
 
     var player = {Name: playerName};
 
-    fetch(process.env.REACT_APP_API_URL + 'players/newPlayer',
-    { method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': "application/json;charset=utf-8"
-      },
-      body: JSON.stringify(player),
-    }).catch(err => console.log(err));
+    RegisterPlayer(player);
 
     event.preventDefault();
   }
