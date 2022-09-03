@@ -24,9 +24,24 @@ namespace DixitOnline.DataAccess.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<PlayerModel>().HasKey(x => x.PlayerId);
             modelBuilder.Entity<PlayerModel>(entity =>
             {
-                entity.Property<int>("PlayerId").ValueGeneratedOnAdd();
+                entity.Property<int>("PlayerId")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property<string>("Name")
+                    .HasMaxLength(20)
+                    .IsRequired();
+
+                entity.Property<int>("Room")
+                    .HasMaxLength(int.MaxValue)
+                    .IsRequired();
+
+                entity.Property<int>("GameScore")
+                    .HasMaxLength(int.MaxValue)
+                    .HasDefaultValue(0)
+                    .IsRequired();
             });
         }
     }

@@ -3,14 +3,16 @@ using DixitOnline.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DixitOnline.DataAccess.Migrations
 {
     [DbContext(typeof(DixitOnlineDbContext))]
-    partial class DixitOnlineDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220903193314_addedRoomAndGameScoreValuesForPlayer")]
+    partial class addedRoomAndGameScoreValuesForPlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
