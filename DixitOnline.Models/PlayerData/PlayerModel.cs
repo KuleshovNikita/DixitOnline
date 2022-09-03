@@ -12,5 +12,9 @@ namespace DixitOnline.Models.PlayerData
         [MaxLength(20)]
         [MinLength(1)]
         public string Name { get; set; }
+
+        public int Room { get; set; }
+
+        public int GameScore { get; set; }
     }
 }
