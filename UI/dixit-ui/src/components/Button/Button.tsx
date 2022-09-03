@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import styles from './Button.module.css';
 
-function Button(props) {
+export function Button(props) {
     return (
         <button className={styles.btn} {...props}>
             {props.children}

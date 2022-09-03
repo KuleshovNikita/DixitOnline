@@ -1,11 +1,12 @@
-import React from 'react';
+import * as React from 'react';
 import InputField from '../components/InputField/InputField';
 import Button from '../components/Button/Button';
 import styles from './StartPage.module.css';
 import { throwToast } from '../hooks/Toast/Toast';
+import { RegisterPlayer } from '../Clients/PlayerClient';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { RegisterPlayer } from '../Clients/PlayerClient';
+import { PlayerModel } from 'Models/PlayerModel';
 
 function StartPage() {
   const [playerName, setPlayerName] = React.useState('');
@@ -34,8 +35,7 @@ function StartPage() {
       return;
     }
 
-    var player = {Name: playerName};
-
+    let player : PlayerModel = { Name: playerName };
     RegisterPlayer(player);
 
     event.preventDefault();
