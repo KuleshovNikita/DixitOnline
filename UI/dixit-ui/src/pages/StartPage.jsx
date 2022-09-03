@@ -2,23 +2,24 @@ import React from 'react';
 import InputField from '../components/InputField/InputField';
 import Button from '../components/Button/Button';
 import styles from './StartPage.module.css';
-import { useToasts } from 'react-toast-notifications';
+import { throwToast } from '../hooks/Toast/Toast';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function StartPage() {
-  const { addToast } = useToasts();
   const [playerName, setPlayerName] = React.useState('');
 
   return (
     <div className={styles.page}>
-        <h1>Dixit Online</h1>
-        <InputField minLength={1} 
-                    maxLength={20} 
-                    placeholder='Enter your name' 
-                    type={"text"} 
-                    onChange={handleChange}
-        />
-        <Button onClick={registerNewPlayer}>Start New Game</Button> 
-        <Button>Connect To The Room</Button>
+      <h1>Dixit Online</h1>
+      <InputField minLength={1} 
+                  maxLength={20} 
+                  placeholder='Enter your name' 
+                  type={"text"} 
+                  onChange={handleChange}
+      />
+      <Button onClick={registerNewPlayer}>Start New Game</Button> 
+      <Button disabled>Connect To The Room</Button>
     </div>
   );
 
@@ -28,7 +29,8 @@ function StartPage() {
 
   function registerNewPlayer(event) {
     if(playerName === '') {
-      addToast("The name cannot be empty!", { appearance: 'error'} );
+      throwToast("The name cannot be empty!", 'error');
+      return;
     }
 
     var player = {Name: playerName};
