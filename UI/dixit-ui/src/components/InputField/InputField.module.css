@@ -7,7 +7,7 @@
 }
 
 .inputField:enabled {
-    background-image: linear-gradient(to right, #912e27 0%, #42a102  51%);
+    background-image: linear-gradient(to right, #997922 10%, #86f03f  70%);
     color: whitesmoke;
 }
 
