@@ -1,0 +1,1 @@
+export declare type ToastType = 'info' | 'success' | 'warning' | 'error';
