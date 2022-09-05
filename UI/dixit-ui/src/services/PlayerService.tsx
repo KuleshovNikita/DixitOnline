@@ -2,7 +2,7 @@ import { registerPlayer } from "clients/PlayerClient";
 import { throwToast } from "hooks/Toast/Toast";
 import { PlayerModel } from "models/PlayerModel";
 
-export default function registerNewPlayer(event, playerName : string) {
+export default function registerNewPlayer(playerName : string) {
     if(playerName === '') {
       throwToast("The name cannot be empty!", 'error');
       return;
@@ -10,4 +10,4 @@ export default function registerNewPlayer(event, playerName : string) {
 
     let player : PlayerModel = { Name: playerName };
     registerPlayer(player);
-  }
+}
