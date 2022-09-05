@@ -34,8 +34,7 @@ namespace DixitOnline.DataAccess.Context
                     .HasMaxLength(20)
                     .IsRequired();
 
-                entity.Property<int>("Room")
-                    .HasMaxLength(int.MaxValue)
+                entity.Property<string>("Room")
                     .IsRequired();
 
                 entity.Property<int>("GameScore")

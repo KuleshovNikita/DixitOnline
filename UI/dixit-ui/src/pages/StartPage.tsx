@@ -2,14 +2,12 @@ import * as React from 'react';
 import InputField from '../components/InputField/InputField';
 import Button from '../components/Button/Button';
 import styles from './StartPage.module.css';
-import { throwToast } from '../hooks/Toast/Toast';
-import { RegisterPlayer } from '../Clients/PlayerClient';
-
-import 'react-toastify/dist/ReactToastify.css';
-import { PlayerModel } from 'Models/PlayerModel';
+import registerNewPlayer from 'services/PlayerService';
+import { throwToast } from 'hooks/Toast/Toast';
 
 function StartPage() {
   const [playerName, setPlayerName] = React.useState('');
+  const [roomBtnProps, setRoomBtnProps] = React.useState({disabled: true});
 
   return (
     <div className={styles.page}>
@@ -18,27 +16,33 @@ function StartPage() {
                   maxLength={20} 
                   placeholder='Enter your name' 
                   type={"text"} 
-                  onChange={handleChange}
+                  onChange={handleNameFieldChange}
+                  style={{marginTop: '0px'}}
       />
-      <Button onClick={registerNewPlayer}>Start New Game</Button> 
-      <Button disabled>Connect To The Room</Button>
+      <InputField minLength={1} 
+                  maxLength={20} 
+                  placeholder='Enter room code or supply a new one' 
+                  type={"text"} 
+                  onChange={handleRoomFieldChange}
+                  style={{marginTop: '0px'}}
+      />
+      <div id={styles.buttonsSet}>
+        <Button onClick={event => registerNewPlayer(event, playerName)}>Start New Game</Button>
+        <Button onClick={() => throwToast('This stuff is not implemented yet', 'error')} {...roomBtnProps}>Connect To The Room</Button>
+      </div>
     </div>
   );
 
-  function handleChange(event) {
+  function handleNameFieldChange(event) {
     setPlayerName(event.target.value);
   }
 
-  function registerNewPlayer(event) {
-    if(playerName === '') {
-      throwToast("The name cannot be empty!", 'error');
-      return;
+  function handleRoomFieldChange(event) {
+    if(event.target.value !== '') {
+      setRoomBtnProps({disabled: false});
+    } else {
+      setRoomBtnProps({disabled: true});
     }
-
-    let player : PlayerModel = { Name: playerName };
-    RegisterPlayer(player);
-
-    event.preventDefault();
   }
 }
 

@@ -1,8 +1,8 @@
-import { PlayerModel } from "../Models/PlayerModel";
+import { PlayerModel } from "../models/PlayerModel";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export function RegisterPlayer(playerModel : PlayerModel) {
+export function registerPlayer(playerModel : PlayerModel) {
     fetch(API_URL + 'players/newPlayer',
     { 
         method: 'POST',
