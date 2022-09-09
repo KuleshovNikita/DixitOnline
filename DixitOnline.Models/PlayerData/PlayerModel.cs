@@ -9,7 +9,7 @@ namespace DixitOnline.Models.PlayerData
 
         public string Name { get; set; }
 
-        public string Room { get; set; }
+        public int RoomId { get; set; }
 
         public int GameScore { get; set; }
     }

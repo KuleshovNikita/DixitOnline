@@ -1,4 +1,5 @@
 ﻿using DixitOnline.Models.PlayerData;
+using DixitOnline.Models.RoomData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal;
 
@@ -34,7 +35,7 @@ namespace DixitOnline.DataAccess.Context
                     .HasMaxLength(20)
                     .IsRequired();
 
-                entity.Property<string>("Room")
+                entity.Property<int>("RoomId")
                     .IsRequired();
 
                 entity.Property<int>("GameScore")
@@ -42,6 +43,25 @@ namespace DixitOnline.DataAccess.Context
                     .HasDefaultValue(0)
                     .IsRequired();
             });
+
+            modelBuilder.Entity<RoomModel>().HasKey(x => x.RoomId);
+            modelBuilder.Entity<RoomModel>(entity =>
+            {
+                entity.Property<int>("RoomId")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property<string>("RoomCode")
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.HasIndex(x => x.RoomCode)
+                    .IsUnique();
+            });
+
+            modelBuilder.Entity<RoomModel>()
+                .HasMany(x => x.Players)
+                .WithOne()
+                .HasForeignKey(x => x.RoomId);
         }
     }
 }
