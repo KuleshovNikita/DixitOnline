@@ -1,0 +1,15 @@
+.page {
+    display: grid;
+    text-align: center;
+    grid-template-rows: 0.7fr 0.7fr 0.7fr 0.7fr;
+    row-gap: 5px;
+    margin-left: 35%;
+    margin-right: 35%;
+}
+
+#buttonsSet {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5px;
+}
+  

@@ -3,14 +3,16 @@ using DixitOnline.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DixitOnline.DataAccess.Migrations
 {
     [DbContext(typeof(DixitOnlineDbContext))]
-    partial class DixitOnlineDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220905085414_ConvertedRoomCodeFromIntegerToString")]
+    partial class ConvertedRoomCodeFromIntegerToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,48 +38,13 @@ namespace DixitOnline.DataAccess.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
+                    b.Property<string>("Room")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PlayerId");
 
-                    b.HasIndex("RoomId");
-
                     b.ToTable("Players");
-                });
-
-            modelBuilder.Entity("DixitOnline.Models.RoomData.RoomModel", b =>
-                {
-                    b.Property<int>("RoomId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("RoomCode")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.HasKey("RoomId");
-
-                    b.HasIndex("RoomCode")
-                        .IsUnique();
-
-                    b.ToTable("RoomModel");
-                });
-
-            modelBuilder.Entity("DixitOnline.Models.PlayerData.PlayerModel", b =>
-                {
-                    b.HasOne("DixitOnline.Models.RoomData.RoomModel", null)
-                        .WithMany("Players")
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DixitOnline.Models.RoomData.RoomModel", b =>
-                {
-                    b.Navigation("Players");
                 });
 #pragma warning restore 612, 618
         }
