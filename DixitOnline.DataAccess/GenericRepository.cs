@@ -1,4 +1,5 @@
 ﻿using DixitOnline.DataAccess.Context;
+using DixitOnline.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,17 +17,18 @@ namespace DixitOnline.DataAccess
             _context = context;
         }
 
-        public void Insert(TEntity model)
+        public ServiceResult Insert(TEntity model)
         {
             try
             {
                 _context.Set<TEntity>().Add(model);
                 _context.SaveChanges();
+
+                return new ServiceResult().Success();
             } 
             catch(Exception ex)
             {
-                //TODO add logger
-                throw ex;
+                return new ServiceResult { ErrorData = ex }.Fail();
             }
         }
     }

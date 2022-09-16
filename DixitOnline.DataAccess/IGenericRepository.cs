@@ -1,7 +1,9 @@
-﻿namespace DixitOnline.DataAccess
+﻿using DixitOnline.ServiceResulting;
+
+namespace DixitOnline.DataAccess
 {
     public interface IGenericRepository<TEntity>
     {
-        void Insert(TEntity model);
+        ServiceResult Insert(TEntity model);
     }
 }

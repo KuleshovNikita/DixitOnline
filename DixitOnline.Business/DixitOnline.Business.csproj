@@ -12,6 +12,7 @@
     <ProjectReference Include="..\DixitOnline.Core\DixitOnline.Core.csproj" />
     <ProjectReference Include="..\DixitOnline.DataAccess\DixitOnline.DataAccess.csproj" />
     <ProjectReference Include="..\DixitOnline.Models\DixitOnline.Models.csproj" />
+    <ProjectReference Include="..\DixitOnline.ServiceResulting\DixitOnline.ServiceResulting.csproj" />
   </ItemGroup>
 
 </Project>

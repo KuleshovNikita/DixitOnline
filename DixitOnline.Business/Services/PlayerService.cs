@@ -1,6 +1,8 @@
 ﻿using DixitOnline.Business.Services.Interfaces;
 using DixitOnline.DataAccess;
 using DixitOnline.Models.PlayerData;
+using DixitOnline.ServiceResulting;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace DixitOnline.Business.Services
@@ -14,14 +16,17 @@ namespace DixitOnline.Business.Services
             _genericRepo = genericRepo;
         }
 
-        public void RegisterPlayer(PlayerModel playerModel)
+        public ServiceResult RegisterPlayer(PlayerModel playerModel)
         {
             if(playerModel == null)
             {
                 throw new ArgumentNullException(nameof(playerModel), $"argument {nameof(playerModel)} was null");
             }
 
-            _genericRepo.Insert(playerModel);
+            return new ServiceResult()
+                    .Do(() => _genericRepo.Insert(playerModel))
+                    .Catch<DbUpdateException>("Server error, the player was not registered")
+                    .Catch<DbUpdateConcurrencyException>("Server error, the player was not registered");
         }
     }
 }
