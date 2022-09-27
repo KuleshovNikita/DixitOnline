@@ -1,7 +1,9 @@
 import { PlayerModel } from "../models/PlayerModel";
+import ServerResult from "../models/ServerResult";
+import { throwToast } from "../hooks/Toast/Toast";
 
-export function registerPlayer(playerModel : PlayerModel) {
-    fetch(process.env.REACT_APP_API_URL + 'players/newPlayer',
+export async function registerPlayer(playerModel : PlayerModel) : Promise<ServerResult> {
+    return await fetch(process.env.REACT_APP_API_URL + 'players/newPlayer',
     { 
         method: 'POST',
         headers: {
@@ -9,5 +11,5 @@ export function registerPlayer(playerModel : PlayerModel) {
         },
         body: JSON.stringify(playerModel),
     })
-    .catch(err => console.log(err));
+    .then(r => r.json());
 }

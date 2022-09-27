@@ -1,14 +1,7 @@
 ﻿using DixitOnline.Business.Services.Interfaces;
 using DixitOnline.Models.PlayerData;
 using DixitOnline.ServiceResulting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Text.Json;
 
 namespace DixitOnline.Api.Controllers
 {
@@ -38,7 +31,6 @@ namespace DixitOnline.Api.Controllers
         {
             var pl = new PlayerModel { Name = "name" };
             return Unauthorized(pl);
-            
         }
 
         [HttpPost]

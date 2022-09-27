@@ -3,13 +3,23 @@
 namespace DixitOnline.Api.Controllers
 {
     [Route("rooms")]
-    public class RoomController : Controller
+    public class RoomController : ResultingController
     {
+        private readonly IRoomService _roomService;
+
+        public RoomController(IRoomService roomService)
+        {
+            _roomService = roomService;
+        }
+
         [HttpPost]
         [Route("newRoom")]
         public string RegisterNewRoom([FromBody] string roomCode)
         {
-            return null;
+            if(string.IsNullOrEmpty(roomCode))
+            {
+
+            }
         }
     }
 }

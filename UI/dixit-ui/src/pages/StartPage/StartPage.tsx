@@ -2,8 +2,8 @@ import * as React from 'react';
 import InputField from '../../components/InputField/InputField';
 import Button from '../../components/Button/Button';
 import styles from './StartPage.module.css';
-import startNewGame from 'services/GameService';
-import { throwToast } from 'hooks/Toast/Toast';
+import startNewGame from '../../services/GameService';
+import { throwToast } from '../../hooks/Toast/Toast';
 import { useNavigate } from 'react-router-dom';
 import { RootPages } from '../../constants/AppRoutes';
 

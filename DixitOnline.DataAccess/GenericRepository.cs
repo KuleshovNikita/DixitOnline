@@ -2,8 +2,9 @@
 using DixitOnline.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace DixitOnline.DataAccess
 {
@@ -27,6 +28,21 @@ namespace DixitOnline.DataAccess
                 return new ServiceResult().Success();
             } 
             catch(Exception ex)
+            {
+                return new ServiceResult { ErrorData = ex }.Fail();
+            }
+        }
+
+        public async Task<GenericServiceResult<int>> Max(Expression<Func<TEntity, int>> command)
+        {
+            try
+            {
+                var result = await _context.Set<TEntity>().MaxAsync(command);
+                await _context.SaveChangesAsync();
+
+                return new GenericServiceResult<int>(result).Success();
+            }
+            catch (Exception ex)
             {
                 return new ServiceResult { ErrorData = ex }.Fail();
             }

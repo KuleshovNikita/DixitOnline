@@ -7,14 +7,9 @@ using System;
 
 namespace DixitOnline.Business.Services
 {
-    public class PlayerService : IPlayerService
+    public class PlayerService : RepoScopedService<PlayerModel>, IPlayerService
     {
-        private readonly IGenericRepository<PlayerModel> _genericRepo;
-
-        public PlayerService(IGenericRepository<PlayerModel> genericRepo)
-        {
-            _genericRepo = genericRepo;
-        }
+        public PlayerService(IGenericRepository<PlayerModel> genericRepo) : base(genericRepo) { }
 
         public ServiceResult RegisterPlayer(PlayerModel playerModel)
         {

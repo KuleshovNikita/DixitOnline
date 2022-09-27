@@ -6,6 +6,8 @@ namespace DixitOnline.ServiceResulting
 {
     public class GenericServiceResult<TValue> : ServiceResult
     {
-        public TValue Value { get; set; }
+        public GenericServiceResult(TValue value) => Value = value;
+
+        public TValue Value { get; }
     }
 }
