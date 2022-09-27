@@ -9,6 +9,6 @@ namespace DixitOnline.DataAccess
     {
         ServiceResult Insert(TEntity model);
 
-        Task<GenericServiceResult<int>> Max(Expression<Func<TEntity, int>> command);
+        Task<ServiceResult> Max(Expression<Func<TEntity, int>> command);
     }
 }

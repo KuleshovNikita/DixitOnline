@@ -29,22 +29,28 @@ namespace DixitOnline.DataAccess
             } 
             catch(Exception ex)
             {
-                return new ServiceResult { ErrorData = ex }.Fail();
+                return new ServiceResult { Exception = ex }.Fail();
             }
         }
 
-        public async Task<GenericServiceResult<int>> Max(Expression<Func<TEntity, int>> command)
+        public async Task<ServiceResult> Max(Expression<Func<TEntity, int>> command)
         {
             try
             {
-                var result = await _context.Set<TEntity>().MaxAsync(command);
-                await _context.SaveChangesAsync();
+                var dbSet = _context.Set<TEntity>();
+
+                if(!dbSet.Any())
+                {
+                    return new GenericServiceResult<int>(-1).Success();
+                }
+
+                var result = await dbSet.MaxAsync(command);
 
                 return new GenericServiceResult<int>(result).Success();
             }
             catch (Exception ex)
             {
-                return new ServiceResult { ErrorData = ex }.Fail();
+                return new GenericServiceResult<int> { Exception = ex }.Fail();
             }
         }
     }

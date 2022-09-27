@@ -1,9 +1,18 @@
 import registerNewPlayer from "./PlayerService";
 import createNewRoom from "./RoomService";
 
-export default function startNewGame(event, playerName : string, roomCode : string | null) : string {
-    createNewRoom(roomCode);
-    registerNewPlayer(playerName);
-    
-    event.preventDefault();
+export default async function startNewGame(event, playerName : string, roomCode : string | null) 
+    : Promise<string> {
+        const res = await createNewRoom(roomCode);
+        console.log(res);
+
+        if(!res.isSuccessful) {
+            return '';
+        }
+
+        await registerNewPlayer(playerName);
+
+        event.preventDefault();
+
+        return res.value;
 }

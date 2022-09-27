@@ -2,7 +2,6 @@
 
 namespace DixitOnline.Models.PlayerData
 {
-    [Table("Players")]
     public class PlayerModel
     {
         public int PlayerId { get; set; }
