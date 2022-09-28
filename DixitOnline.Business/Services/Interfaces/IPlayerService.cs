@@ -1,8 +1,10 @@
 ﻿using DixitOnline.Models.PlayerData;
+using DixitOnline.ServiceResulting;
+
 namespace DixitOnline.Business.Services.Interfaces
 {
     public interface IPlayerService
     {
-        void RegisterPlayer(PlayerModel playerModel);
+        ServiceResult RegisterPlayer(PlayerModel playerModel);
     }
 }

@@ -1,13 +1,13 @@
 ﻿using DixitOnline.Business.Services.Interfaces;
 using DixitOnline.Models.PlayerData;
-using Func;
+using DixitOnline.ServiceResulting;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace DixitOnline.Api.Controllers
 {
+    [ApiController]
     [Route("players")]
-    public class PlayerController : Controller
+    public class PlayerController : ResultingController
     {
         private readonly IPlayerService _playerService;
 
@@ -21,16 +21,22 @@ namespace DixitOnline.Api.Controllers
         {
             return new PlayerModel
             {
-                Name = "Mykyta",
-                PlayerId = 1
+                Name = string.Empty
             };
+        }
+
+        [HttpGet]
+        [Route("getError")]
+        public IActionResult GetPlayerError()
+        {
+            var pl = new PlayerModel { Name = "name" };
+            return Unauthorized(pl);
         }
 
         [HttpPost]
         [Route("newPlayer")]
-        public void RegisterNewPlayer([FromBody] PlayerModel player)
-        {
-            _playerService.RegisterPlayer(player);
-        }   
+        public ServiceResult RegisterNewPlayer([FromBody] PlayerModel player)
+            => ValidateModel()
+                .Do(() => _playerService.RegisterPlayer(player)) as ServiceResult;
     }
 }

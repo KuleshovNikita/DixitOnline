@@ -1,17 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DixitOnline.Core\DixitOnline.Core.csproj" />
     <ProjectReference Include="..\DixitOnline.DataAccess\DixitOnline.DataAccess.csproj" />
     <ProjectReference Include="..\DixitOnline.Models\DixitOnline.Models.csproj" />
+    <ProjectReference Include="..\DixitOnline.ServiceResulting\DixitOnline.ServiceResulting.csproj" />
   </ItemGroup>
 
 </Project>

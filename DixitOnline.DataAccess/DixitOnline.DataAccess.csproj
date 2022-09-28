@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DixitOnline.Core\DixitOnline.Core.csproj" />
     <ProjectReference Include="..\DixitOnline.Models\DixitOnline.Models.csproj" />
+    <ProjectReference Include="..\DixitOnline.ServiceResulting\DixitOnline.ServiceResulting.csproj" />
   </ItemGroup>
 
 </Project>

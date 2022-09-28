@@ -10,6 +10,7 @@ namespace DixitOnline.Business.Modules
         public IServiceCollection ConfigureModule(IServiceCollection services)
         {
             services.AddScoped<IPlayerService, PlayerService>();
+            services.AddScoped<IRoomService, RoomService>();
 
             return services;
         }

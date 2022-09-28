@@ -26,6 +26,7 @@ namespace DixitOnline.DataAccess.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<PlayerModel>().HasKey(x => x.PlayerId);
+            modelBuilder.Entity<PlayerModel>().ToTable("Players");
             modelBuilder.Entity<PlayerModel>(entity =>
             {
                 entity.Property<int>("PlayerId")
@@ -45,6 +46,7 @@ namespace DixitOnline.DataAccess.Context
             });
 
             modelBuilder.Entity<RoomModel>().HasKey(x => x.RoomId);
+            modelBuilder.Entity<RoomModel>().ToTable("Rooms");
             modelBuilder.Entity<RoomModel>(entity =>
             {
                 entity.Property<int>("RoomId")
@@ -52,10 +54,9 @@ namespace DixitOnline.DataAccess.Context
 
                 entity.Property<string>("RoomCode")
                     .IsRequired()
-                    .HasMaxLength(15);
+                    .HasMaxLength(16);
 
-                entity.HasIndex(x => x.RoomCode)
-                    .IsUnique();
+                entity.HasAlternateKey(x => x.RoomCode);
             });
 
             modelBuilder.Entity<RoomModel>()
