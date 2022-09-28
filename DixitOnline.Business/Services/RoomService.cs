@@ -28,11 +28,7 @@ namespace DixitOnline.Business.Services
 
             if(!repoResult.IsSuccessful)
             {
-                return new ServiceResult<string>
-                {
-                    Exception = repoResult.Exception
-                }
-                .Fail();
+                return repoResult.MapToResult<string>();
             }
 
             var key = GenerateUniqueKey(repoResult.Value);
@@ -55,7 +51,6 @@ namespace DixitOnline.Business.Services
             return normalisedKey;
         }
 
-        //TODO не будет работать, нужно возвращать код комнаты
         public ServiceResult<RoomModel> CreateRoom(string roomCode)
             => new ServiceResult<Empty>()
                 .Do(() => _genericRepo.Insert(new RoomModel { RoomCode = roomCode }))
