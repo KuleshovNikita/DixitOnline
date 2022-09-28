@@ -8,7 +8,7 @@ namespace DixitOnline.Business.Services.Interfaces
 {
     public interface IRoomService
     {
-        Task<GenericServiceResult<string>> GenerateRoomCode();
+        GenericServiceResult<string> GenerateRoomCode();
 
         IServiceResult CreateRoom(string roomCode);
 

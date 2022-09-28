@@ -5,11 +5,12 @@ using System.Text;
 
 namespace DixitOnline.Business.Crypto
 {
-    public static class CaesarEncryption
+    public class CaesarEncryption
     {
-        private static readonly List<int> _caesarOffsets = new List<int>();
+        private readonly List<int> _caesarOffsets = new List<int>();
+        private readonly Random _random = new Random();
 
-        private static readonly char[] _alphabet = new[]
+        private readonly char[] _alphabet = new[]
         { 
           'A', 'a',
           'B', 'b',
@@ -39,14 +40,14 @@ namespace DixitOnline.Business.Crypto
           'Z', 'z'
         };
             
-        public static string Encrypt(string data)
+        public string Encrypt(string data)
         {
             GenerateOffsets(10);
             var stringBuilder = new StringBuilder();
 
             foreach (var item in data)
             {
-                var offsetIndex = new Random().Next(_caesarOffsets.Count());
+                var offsetIndex = _random.Next(_caesarOffsets.Count());
                 var num = (int)char.GetNumericValue(item) + _caesarOffsets[offsetIndex];
 
                 if(num < 0)
@@ -56,7 +57,7 @@ namespace DixitOnline.Business.Crypto
 
                 if(num > _alphabet.Count())
                 {
-                    var multipler = (num / _alphabet.Count());
+                    var multipler = num / _alphabet.Count();
                     num -= _alphabet.Count() * multipler;
                 }
 
@@ -66,11 +67,11 @@ namespace DixitOnline.Business.Crypto
             return $"{stringBuilder}=";
         }
 
-        private static void GenerateOffsets(int count)
+        private void GenerateOffsets(int count)
         {
             while(_caesarOffsets.Count() != count)
             {
-                var offset = new Random().Next(-20, 30);
+                var offset = _random.Next(-20, 30);
 
                 if(_caesarOffsets.Contains(offset))
                 {

@@ -4,11 +4,11 @@ using DixitOnline.DataAccess;
 using DixitOnline.Models.RoomData;
 using DixitOnline.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace DixitOnline.Business.Services
 {
@@ -21,11 +21,11 @@ namespace DixitOnline.Business.Services
             _roomCodeLength = int.Parse(configuration.GetSection("EnvironmentConstants:RoomCodeLength").Value);
         }
 
-        public async Task<GenericServiceResult<string>> GenerateRoomCode()
+        public GenericServiceResult<string> GenerateRoomCode()
         {
             var repoResult =
                 new GenericServiceResult<int>()
-                    .Do(() => _genericRepo.Max(x => x.RoomId).Result) as GenericServiceResult<int>;
+                    .Do(() => _genericRepo.Max(x => x.RoomId).Result) as GenericServiceResult<int?>;
 
             if(!repoResult.IsSuccessful)
             {
@@ -36,21 +36,24 @@ namespace DixitOnline.Business.Services
                 .Fail();
             }
 
-            var maxRoomId = repoResult.Value == -1 
-                                ? new Random().Next(0, 100)
-                                : repoResult.Value;
+            var key = GenerateUniqueKey(repoResult.Value);
 
-            var currentTime = DateTime.Now;
-            var longKey = Math.Abs(currentTime.Millisecond * currentTime.Ticks * maxRoomId);
-
-            var normalisedKey = string.Join(string.Empty, 
-                                            longKey.ToString()
-                                                   .Replace(" ", string.Empty)
-                                                   .Take(_roomCodeLength));
-
-            var roomCode = CaesarEncryption.Encrypt(normalisedKey);
+            var roomCode = new CaesarEncryption().Encrypt(key);
 
             return new GenericServiceResult<string>(roomCode).Success() as GenericServiceResult<string>;
+        }
+
+        private string GenerateUniqueKey(int? value)
+        {
+            var maxRoomId = value ?? new Random().Next(0, 100);
+            var currentTime = DateTime.Now;
+            var key = Math.Abs(currentTime.Millisecond * currentTime.Ticks * maxRoomId);
+
+            var normalisedKey = string.Join(string.Empty, key.ToString()
+                                                             .Replace(" ", string.Empty)
+                                                             .Take(_roomCodeLength));
+
+            return normalisedKey;
         }
 
         public IServiceResult CreateRoom(string roomCode)

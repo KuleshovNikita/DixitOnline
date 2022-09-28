@@ -18,11 +18,11 @@ namespace DixitOnline.Api.Controllers
 
         [HttpPost]
         [Route("newRoom")]
-        public async Task<GenericServiceResult<RoomModel>> RegisterNewRoom([FromBody] string roomCode)
+        public GenericServiceResult<RoomModel> RegisterNewRoom([FromBody] string roomCode)
         {
             if(string.IsNullOrEmpty(roomCode))
             {
-                var res = await _roomService.GenerateRoomCode();
+                var res = _roomService.GenerateRoomCode();
 
                 if(!res.IsSuccessful)
                 {

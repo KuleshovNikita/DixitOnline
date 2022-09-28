@@ -57,7 +57,7 @@ namespace DixitOnline.DataAccess
 
                 if(!dbSet.Any())
                 {
-                    return new GenericServiceResult<int>(-1).Success();
+                    return new GenericServiceResult<int?>(null).Success();
                 }
 
                 var result = await dbSet.MaxAsync(command);
