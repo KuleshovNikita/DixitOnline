@@ -4,15 +4,14 @@ import createNewRoom from "./RoomService";
 export default async function startNewGame(event, playerName : string, roomCode : string | null) 
     : Promise<string> {
         const res = await createNewRoom(roomCode);
-        console.log(res);
 
         if(!res.isSuccessful) {
             return '';
         }
 
-        await registerNewPlayer(playerName);
+        await registerNewPlayer(playerName, res.value.roomId);
 
         event.preventDefault();
 
-        return res.value;
+        return res.value.roomCode;
 }

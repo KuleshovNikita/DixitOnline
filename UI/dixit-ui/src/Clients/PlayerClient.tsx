@@ -1,6 +1,5 @@
 import { PlayerModel } from "../models/PlayerModel";
 import ServerResult from "../models/ServerResult";
-import { throwToast } from "../hooks/Toast/Toast";
 
 export async function registerPlayer(playerModel : PlayerModel) : Promise<ServerResult> {
     return await fetch(process.env.REACT_APP_API_URL + 'players/newPlayer',

@@ -1,4 +1,5 @@
 ﻿using DixitOnline.Business.Services.Interfaces;
+using DixitOnline.Models.RoomData;
 using DixitOnline.ServiceResulting;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace DixitOnline.Api.Controllers
 
         [HttpPost]
         [Route("newRoom")]
-        public async Task<GenericServiceResult<string>> RegisterNewRoom([FromBody] string roomCode)
+        public async Task<GenericServiceResult<RoomModel>> RegisterNewRoom([FromBody] string roomCode)
         {
             if(string.IsNullOrEmpty(roomCode))
             {
@@ -25,16 +26,22 @@ namespace DixitOnline.Api.Controllers
 
                 if(!res.IsSuccessful)
                 {
-                    return res;
+                    return new GenericServiceResult<RoomModel>();
                 }
 
                 roomCode = res.Value;
             }
 
-            var a = new GenericServiceResult<string>()
-                        .Do(() => _roomService.CreateRoom(roomCode));
+            var result = new GenericServiceResult<string>()
+                        .Do(() => _roomService.CreateRoom(roomCode)) as GenericServiceResult<RoomModel>;
 
-            return a;
+            var room = new RoomModel
+            {
+                RoomCode = result.Value.RoomCode,
+                RoomId = (_roomService.First(r => r.RoomCode == result.Value.RoomCode) as GenericServiceResult<RoomModel>).Value.RoomId
+            };
+
+            return result;
         }
     }
 }

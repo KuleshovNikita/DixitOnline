@@ -21,7 +21,7 @@ namespace DixitOnline.Business.Services
             return new ServiceResult()
                     .Do(() => _genericRepo.Insert(playerModel))
                     .Catch<DbUpdateException>("Server error, the player was not registered")
-                    .Catch<DbUpdateConcurrencyException>("Server error, the player was not registered");
+                    .Catch<DbUpdateConcurrencyException>("Server error, the player was not registered") as ServiceResult;
         }
     }
 }

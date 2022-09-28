@@ -1,4 +1,5 @@
 ﻿using DixitOnline.DataAccess.Context;
+using DixitOnline.Models.RoomData;
 using DixitOnline.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,11 +19,11 @@ namespace DixitOnline.DataAccess
             _context = context;
         }
 
-        public ServiceResult Insert(TEntity model)
+        public IServiceResult Insert(TEntity model)
         {
             try
             {
-                _context.Set<TEntity>().Add(model);
+                var a = _context.Set<TEntity>().Add(model);
                 _context.SaveChanges();
 
                 return new ServiceResult().Success();
@@ -33,7 +34,22 @@ namespace DixitOnline.DataAccess
             }
         }
 
-        public async Task<ServiceResult> Max(Expression<Func<TEntity, int>> command)
+        public IServiceResult InsertAndReturn(TEntity model)
+        {
+            try
+            {
+                _context.Set<TEntity>().Add(model);
+                _context.SaveChanges();
+
+                return new GenericServiceResult<TEntity>(model).Success();
+            }
+            catch (Exception ex)
+            {
+                return new GenericServiceResult<TEntity> { Exception = ex }.Fail();
+            }
+        }
+
+        public async Task<IServiceResult> Max(Expression<Func<TEntity, int>> command)
         {
             try
             {
@@ -51,6 +67,24 @@ namespace DixitOnline.DataAccess
             catch (Exception ex)
             {
                 return new GenericServiceResult<int> { Exception = ex }.Fail();
+            }
+        }
+
+        public async Task<IServiceResult> First(Expression<Func<TEntity, bool>> command)
+        {
+            try
+            {
+                var result = await _context.Set<TEntity>().FirstAsync(command);
+
+                return new GenericServiceResult<TEntity>(result).Success();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return new GenericServiceResult<TEntity> { Exception = ex }.Fail();
+            }
+            catch (Exception ex)
+            {
+                return new GenericServiceResult<TEntity> { Exception = ex }.Fail();
             }
         }
     }

@@ -7,12 +7,12 @@ namespace DixitOnline.Api.Controllers
     [ApiController]
     public class ResultingController : ControllerBase
     {
-        protected ServiceResult ValidateModel<TModel>()
+        protected IServiceResult ValidateModel<TModel>()
             => ModelState.IsValid
                 ? new GenericServiceResult<TModel>().Success()
                 : new GenericServiceResult<TModel>().Fail();
 
-        protected ServiceResult ValidateModel()
+        protected IServiceResult ValidateModel()
             => ModelState.IsValid
                 ? new ServiceResult().Success()
                 : new ServiceResult().Fail();

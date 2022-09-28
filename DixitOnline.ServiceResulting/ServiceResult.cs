@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace DixitOnline.ServiceResulting
 {
-    public class ServiceResult
+    public class ServiceResult : IServiceResult
     {
         private bool _continueCatching = true;
 
@@ -13,13 +12,13 @@ namespace DixitOnline.ServiceResulting
         [JsonIgnore]
         public Exception Exception { get; set; }
 
-        public string ClientErrorMessage { get; set; }
+        public string ClientErrorMessage { get; private set; }
 
-        public ServiceResult Success() => SetResultState(true);
+        public IServiceResult Success() => SetResultState(true);
 
-        public ServiceResult Fail() => SetResultState(false);
+        public IServiceResult Fail() => SetResultState(false);
 
-        public ServiceResult Do(Func<ServiceResult> expression)
+        public IServiceResult Do(Func<IServiceResult> expression)
         {
             if (Exception != null || !IsSuccessful)
             {
@@ -29,7 +28,7 @@ namespace DixitOnline.ServiceResulting
             return expression();
         }
 
-        public ServiceResult Catch<TException>(string errorMessage) where TException : Exception
+        public IServiceResult Catch<TException>(string errorMessage) where TException : Exception
         {   
             if(_continueCatching && Exception?.GetType() == typeof(TException))
             {
@@ -40,7 +39,7 @@ namespace DixitOnline.ServiceResulting
             return this;
         }
 
-        protected ServiceResult SetResultState(bool state)
+        protected IServiceResult SetResultState(bool state)
         {
             IsSuccessful = state;
             return this;

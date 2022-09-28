@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace DixitOnline.ServiceResulting
 {
-    public class GenericServiceResult<TValue>
+    public class GenericServiceResult<TValue> : IServiceResult
     {
         private bool _continueCatching = true;
 
@@ -20,25 +20,11 @@ namespace DixitOnline.ServiceResulting
 
         public string ClientErrorMessage { get; private set; }
 
-        public GenericServiceResult<TValue> Success() => SetResultState(true);
+        public IServiceResult Success() => SetResultState(true);
 
-        public GenericServiceResult<TValue> Fail() => SetResultState(false);
+        public IServiceResult Fail() => SetResultState(false);
 
-        public ServiceResult Do(Func<ServiceResult> expression)
-        {
-            if (Exception != null || !IsSuccessful)
-            {
-                return new ServiceResult
-                {
-                    Exception = this.Exception,
-                    ClientErrorMessage = this.ClientErrorMessage
-                }.Fail();
-            }
-
-            return expression();
-        }
-
-        public GenericServiceResult<TValue> Do(Func<GenericServiceResult<TValue>> expression)
+        public IServiceResult Do(Func<IServiceResult> expression)
         {
             if (Exception != null || !IsSuccessful)
             {
@@ -48,7 +34,7 @@ namespace DixitOnline.ServiceResulting
             return expression();
         }
 
-        public GenericServiceResult<TValue> Catch<TException>(string errorMessage) where TException : Exception
+        public IServiceResult Catch<TException>(string errorMessage) where TException : Exception
         {
             if (_continueCatching && Exception?.GetType() == typeof(TException))
             {
@@ -59,7 +45,7 @@ namespace DixitOnline.ServiceResulting
             return this;
         }
 
-        protected GenericServiceResult<TValue> SetResultState(bool state)
+        protected IServiceResult SetResultState(bool state)
         {
             IsSuccessful = state;
             return this;

@@ -1,6 +1,6 @@
 export interface PlayerModel {
     readonly Id? : number,
-    readonly Room? : number,
+    readonly RoomId? : number,
     Name : string,
     GameScore? : number
 }
