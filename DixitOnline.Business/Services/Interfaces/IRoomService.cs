@@ -8,10 +8,10 @@ namespace DixitOnline.Business.Services.Interfaces
 {
     public interface IRoomService
     {
-        GenericServiceResult<string> GenerateRoomCode();
+        ServiceResult<string> GenerateRoomCode();
 
-        IServiceResult CreateRoom(string roomCode);
+        AbstractServiceResult CreateRoom(string roomCode);
 
-        IServiceResult First(Expression<Func<RoomModel, bool>> command);
+        AbstractServiceResult First(Expression<Func<RoomModel, bool>> command);
     }
 }

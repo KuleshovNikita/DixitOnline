@@ -19,37 +19,37 @@ namespace DixitOnline.DataAccess
             _context = context;
         }
 
-        public IServiceResult Insert(TEntity model)
+        public ServiceResult<TEntity> Insert(TEntity model)
         {
             try
             {
                 var a = _context.Set<TEntity>().Add(model);
                 _context.SaveChanges();
 
-                return new ServiceResult().Success();
+                return new ServiceResult<TEntity>().Success();
             } 
             catch(Exception ex)
             {
-                return new ServiceResult { Exception = ex }.Fail();
+                return new ServiceResult<TEntity> { Exception = ex }.Fail();
             }
         }
 
-        public IServiceResult InsertAndReturn(TEntity model)
+        public ServiceResult<TEntity> InsertAndReturn(TEntity model)
         {
             try
             {
                 _context.Set<TEntity>().Add(model);
                 _context.SaveChanges();
 
-                return new GenericServiceResult<TEntity>(model).Success();
+                return new ServiceResult<TEntity>(model).Success();
             }
             catch (Exception ex)
             {
-                return new GenericServiceResult<TEntity> { Exception = ex }.Fail();
+                return new ServiceResult<TEntity> { Exception = ex }.Fail();
             }
         }
 
-        public async Task<IServiceResult> Max(Expression<Func<TEntity, int>> command)
+        public async Task<ServiceResult<int?>> Max(Expression<Func<TEntity, int>> command)
         {
             try
             {
@@ -57,20 +57,20 @@ namespace DixitOnline.DataAccess
 
                 if(!dbSet.Any())
                 {
-                    return new GenericServiceResult<int?>(null).Success();
+                    return new ServiceResult<int?>(null).Success();
                 }
 
                 var result = await dbSet.MaxAsync(command);
 
-                return new GenericServiceResult<int>(result).Success();
+                return new ServiceResult<int?>(result).Success();
             }
             catch (Exception ex)
             {
-                return new GenericServiceResult<int> { Exception = ex }.Fail();
+                return new ServiceResult<int?> { Exception = ex }.Fail();
             }
         }
 
-        public async Task<IServiceResult> First(Expression<Func<TEntity, bool>> command)
+        public async Task<AbstractServiceResult> First(Expression<Func<TEntity, bool>> command)
         {
             try
             {

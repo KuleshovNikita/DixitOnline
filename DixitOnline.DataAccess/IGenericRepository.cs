@@ -8,12 +8,12 @@ namespace DixitOnline.DataAccess
 {
     public interface IGenericRepository<TEntity>
     {
-        IServiceResult Insert(TEntity model);
+        AbstractServiceResult Insert(TEntity model);
 
-        IServiceResult InsertAndReturn(TEntity model);
+        AbstractServiceResult InsertAndReturn(TEntity model);
 
-        Task<IServiceResult> First(Expression<Func<TEntity, bool>> command);
+        Task<AbstractServiceResult> First(Expression<Func<TEntity, bool>> command);
 
-        Task<IServiceResult> Max(Expression<Func<TEntity, int>> command);
+        Task<AbstractServiceResult> Max(Expression<Func<TEntity, int>> command);
     }
 }

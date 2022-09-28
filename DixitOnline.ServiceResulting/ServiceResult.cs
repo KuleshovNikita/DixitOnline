@@ -3,22 +3,28 @@ using System.Text.Json.Serialization;
 
 namespace DixitOnline.ServiceResulting
 {
-    public class ServiceResult : IServiceResult
+    public class ServiceResult<TValue>
     {
         private bool _continueCatching = true;
 
         public bool IsSuccessful { get; private set; } = true;
+
+        public TValue Value { get; }
+
+        public ServiceResult() { }
+
+        public ServiceResult(TValue value) => Value = value;
 
         [JsonIgnore]
         public Exception Exception { get; set; }
 
         public string ClientErrorMessage { get; private set; }
 
-        public IServiceResult Success() => SetResultState(true);
+        public ServiceResult<TValue> Success() => SetResultState(true);
 
-        public IServiceResult Fail() => SetResultState(false);
+        public ServiceResult<TValue> Fail() => SetResultState(false);
 
-        public IServiceResult Do(Func<IServiceResult> expression)
+        public ServiceResult<TValue> Do(Func<ServiceResult<TValue>> expression)
         {
             if (Exception != null || !IsSuccessful)
             {
@@ -28,7 +34,7 @@ namespace DixitOnline.ServiceResulting
             return expression();
         }
 
-        public IServiceResult Catch<TException>(string errorMessage) where TException : Exception
+        public ServiceResult<TValue> Catch<TException>(string errorMessage) where TException : Exception
         {   
             if(_continueCatching && Exception?.GetType() == typeof(TException))
             {
@@ -39,7 +45,7 @@ namespace DixitOnline.ServiceResulting
             return this;
         }
 
-        protected IServiceResult SetResultState(bool state)
+        protected ServiceResult<TValue> SetResultState(bool state)
         {
             IsSuccessful = state;
             return this;

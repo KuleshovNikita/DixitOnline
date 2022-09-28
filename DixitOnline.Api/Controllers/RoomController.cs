@@ -18,7 +18,7 @@ namespace DixitOnline.Api.Controllers
 
         [HttpPost]
         [Route("newRoom")]
-        public GenericServiceResult<RoomModel> RegisterNewRoom([FromBody] string roomCode)
+        public ServiceResult<RoomModel> RegisterNewRoom([FromBody] string roomCode)
         {
             if(string.IsNullOrEmpty(roomCode))
             {
@@ -33,12 +33,12 @@ namespace DixitOnline.Api.Controllers
             }
 
             var result = new GenericServiceResult<string>()
-                        .Do(() => _roomService.CreateRoom(roomCode)) as GenericServiceResult<RoomModel>;
+                        .Do(() => _roomService.CreateRoom(roomCode)) as ServiceResult<RoomModel>;
 
             var room = new RoomModel
             {
                 RoomCode = result.Value.RoomCode,
-                RoomId = (_roomService.First(r => r.RoomCode == result.Value.RoomCode) as GenericServiceResult<RoomModel>).Value.RoomId
+                RoomId = (_roomService.First(r => r.RoomCode == result.Value.RoomCode) as ServiceResult<RoomModel>).Value.RoomId
             };
 
             return result;

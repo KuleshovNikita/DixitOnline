@@ -27,7 +27,7 @@ namespace DixitOnline.UnitTests.Business
         public void GenerateRoomCode_GeneratesNewCodeSuccessfully()
         {
             var result = ArrangeAndActRoomCodeGenerating(new GenericServiceResult<int?>(1).Success())
-                    as GenericServiceResult<string>;
+                    as ServiceResult<string>;
 
             Assert.IsFalse(string.IsNullOrEmpty(result!.Value));
         }
@@ -56,7 +56,7 @@ namespace DixitOnline.UnitTests.Business
         private RoomService GetNewSut()
             => new RoomService(_repo.Object, _config.Object);
 
-        private IServiceResult ArrangeAndActRoomCodeGenerating(IServiceResult repoResult)
+        private AbstractServiceResult ArrangeAndActRoomCodeGenerating(AbstractServiceResult repoResult)
         {
             _repo
                 .Setup(x => x.Max(r => r.RoomId))
