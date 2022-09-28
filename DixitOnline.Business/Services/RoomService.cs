@@ -4,7 +4,6 @@ using DixitOnline.DataAccess;
 using DixitOnline.Models.RoomData;
 using DixitOnline.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
@@ -57,12 +56,13 @@ namespace DixitOnline.Business.Services
         }
 
         //TODO не будет работать, нужно возвращать код комнаты
-        public ServiceResult<Empty> CreateRoom(string roomCode)
+        public ServiceResult<RoomModel> CreateRoom(string roomCode)
             => new ServiceResult<Empty>()
-                .Do(() => _genericRepo.Insert(new RoomModel { RoomCode = roomCode } ))
+                .Do(() => _genericRepo.Insert(new RoomModel { RoomCode = roomCode }))
                 .Catch<DbUpdateException>("Server error, the room was not created")
                 .Catch<DbUpdateConcurrencyException>("Server error, the room was not created")
-                .Catch<Exception>("Unknown error, can't create a room");
+                .Catch<Exception>("Unknown error, can't create a room")
+                .MapToResult(new RoomModel { RoomCode = roomCode });
 
         public ServiceResult<RoomModel> First(Expression<Func<RoomModel, bool>> command)
             => new ServiceResult<RoomModel>()

@@ -9,7 +9,7 @@ namespace DixitOnline.Business.Services.Interfaces
     {
         ServiceResult<string> GenerateRoomCode();
 
-        ServiceResult<Empty> CreateRoom(string roomCode);
+        ServiceResult<RoomModel> CreateRoom(string roomCode);
 
         ServiceResult<RoomModel> First(Expression<Func<RoomModel, bool>> command);
     }

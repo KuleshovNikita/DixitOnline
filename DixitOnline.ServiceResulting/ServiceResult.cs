@@ -26,12 +26,12 @@ namespace DixitOnline.ServiceResulting
 
         public ServiceResult<TValue> Do(Func<ServiceResult<TValue>> expression)
         {
-            if (Exception != null || !IsSuccessful)
+            if (Exception == null && IsSuccessful)
             {
-                return this;
+                return expression();
             }
 
-            return expression();
+            return this;
         }
 
         public ServiceResult<TValue> Catch<TException>(string errorMessage) where TException : Exception
@@ -44,6 +44,14 @@ namespace DixitOnline.ServiceResulting
 
             return this;
         }
+
+        public ServiceResult<TOut> MapToResult<TOut>(TOut data)
+            => new ServiceResult<TOut>(data)
+            {
+                Exception = Exception,
+                ClientErrorMessage = ClientErrorMessage,
+                IsSuccessful = IsSuccessful
+            };
 
         protected ServiceResult<TValue> SetResultState(bool state)
         {

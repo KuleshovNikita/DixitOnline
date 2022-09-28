@@ -33,7 +33,7 @@ namespace DixitOnline.DataAccess
             }
         }
 
-        public async Task<ServiceResult<TScope>> Max<TScope>(Expression<Func<TEntity, TScope>> command)
+        public async Task<ServiceResult<TFindBy>> Max<TFindBy>(Expression<Func<TEntity, TFindBy>> command)
         {
             try
             {
@@ -41,16 +41,16 @@ namespace DixitOnline.DataAccess
 
                 if(!dbSet.Any())
                 {
-                    return new ServiceResult<TScope>(default(TScope)).Success();
+                    return new ServiceResult<TFindBy>(default(TFindBy)).Success();
                 }
 
                 var result = await dbSet.MaxAsync(command);
 
-                return new ServiceResult<TScope>(result).Success();
+                return new ServiceResult<TFindBy>(result).Success();
             }
             catch (Exception ex)
             {
-                return new ServiceResult<TScope> { Exception = ex }.Fail();
+                return new ServiceResult<TFindBy> { Exception = ex }.Fail();
             }
         }
 

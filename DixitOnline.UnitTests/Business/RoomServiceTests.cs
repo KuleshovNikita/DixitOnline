@@ -26,8 +26,7 @@ namespace DixitOnline.UnitTests.Business
         [Test]
         public void GenerateRoomCode_GeneratesNewCodeSuccessfully()
         {
-            var result = ArrangeAndActRoomCodeGenerating(new GenericServiceResult<int?>(1).Success())
-                    as ServiceResult<string>;
+            var result = ArrangeAndActRoomCodeGenerating(new ServiceResult<int?>(1).Success());
 
             Assert.IsFalse(string.IsNullOrEmpty(result!.Value));
         }
@@ -35,7 +34,7 @@ namespace DixitOnline.UnitTests.Business
         [Test]
         public void GenerateRoomCode_GeneratesFailIfRepoFailed()
         {
-            var result = ArrangeAndActRoomCodeGenerating(new GenericServiceResult<int?>(1).Fail());
+            var result = ArrangeAndActRoomCodeGenerating(new ServiceResult<int?>(1).Fail());
 
             Assert.IsFalse(result.IsSuccessful);
         }
@@ -44,8 +43,8 @@ namespace DixitOnline.UnitTests.Business
         public void GenerateRoomCode_GeneratesRandomNumberIfNoRoomsFound()
         {
             _repo
-                .Setup(x => x.Max(r => r.RoomId))
-                .Returns(Task.FromResult(new GenericServiceResult<int?>(null).Success()));
+                .Setup(x => x.Max<int?>(r => r.RoomId))
+                .Returns(Task.FromResult(new ServiceResult<int?>(null).Success()));
             var sut = GetNewSut();
 
             void action() => sut.GenerateRoomCode();
@@ -56,10 +55,10 @@ namespace DixitOnline.UnitTests.Business
         private RoomService GetNewSut()
             => new RoomService(_repo.Object, _config.Object);
 
-        private AbstractServiceResult ArrangeAndActRoomCodeGenerating(AbstractServiceResult repoResult)
+        private ServiceResult<string> ArrangeAndActRoomCodeGenerating(ServiceResult<int?> repoResult)
         {
             _repo
-                .Setup(x => x.Max(r => r.RoomId))
+                .Setup(x => x.Max<int?>(r => r.RoomId))
                 .Returns(Task.FromResult(repoResult));
             var sut = GetNewSut();
 

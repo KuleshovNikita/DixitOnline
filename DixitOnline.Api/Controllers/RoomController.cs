@@ -32,18 +32,12 @@ namespace DixitOnline.Api.Controllers
                 roomCode = res.Value;
             }
 
-            //TODO возвращать не пустоту, а комнату
-            var result = new ServiceResult<Empty>()
-                            .Do(() => _roomService.CreateRoom(roomCode));
+            var room = new ServiceResult<RoomModel>()
+                                .Do(() => _roomService.CreateRoom(roomCode));
 
-            //TODO хуй знает зачем
-            var room = new RoomModel
-            {
-                RoomCode = roomCode,
-                RoomId = _roomService.First(r => r.RoomCode == roomCode).Value.RoomId
-            };
+            room.Value.RoomId = _roomService.First(r => r.RoomCode == roomCode).Value.RoomId;
 
-            return result;
+            return room;
         }
     }
 }
