@@ -2,7 +2,6 @@
 using DixitOnline.ServiceResulting;
 using System;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace DixitOnline.Business.Services.Interfaces
 {
@@ -10,8 +9,8 @@ namespace DixitOnline.Business.Services.Interfaces
     {
         ServiceResult<string> GenerateRoomCode();
 
-        AbstractServiceResult CreateRoom(string roomCode);
+        ServiceResult<Empty> CreateRoom(string roomCode);
 
-        AbstractServiceResult First(Expression<Func<RoomModel, bool>> command);
+        ServiceResult<RoomModel> First(Expression<Func<RoomModel, bool>> command);
     }
 }

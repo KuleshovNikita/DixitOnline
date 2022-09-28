@@ -5,6 +5,6 @@ namespace DixitOnline.Business.Services.Interfaces
 {
     public interface IPlayerService
     {
-        ServiceResult RegisterPlayer(PlayerModel playerModel);
+        ServiceResult<Empty> RegisterPlayer(PlayerModel playerModel);
     }
 }

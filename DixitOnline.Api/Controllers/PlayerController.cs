@@ -35,8 +35,8 @@ namespace DixitOnline.Api.Controllers
 
         [HttpPost]
         [Route("newPlayer")]
-        public ServiceResult RegisterNewPlayer([FromBody] PlayerModel player)
+        public ServiceResult<Empty> RegisterNewPlayer([FromBody] PlayerModel player)
             => ValidateModel()
-                .Do(() => _playerService.RegisterPlayer(player)) as ServiceResult;
+                .Do(() => _playerService.RegisterPlayer(player));
     }
 }

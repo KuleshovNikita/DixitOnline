@@ -11,17 +11,17 @@ namespace DixitOnline.Business.Services
     {
         public PlayerService(IGenericRepository<PlayerModel> genericRepo) : base(genericRepo) { }
 
-        public ServiceResult RegisterPlayer(PlayerModel playerModel)
+        public ServiceResult<Empty> RegisterPlayer(PlayerModel playerModel)
         {
             if(playerModel == null)
             {
                 throw new ArgumentNullException(nameof(playerModel), $"argument {nameof(playerModel)} was null");
             }
 
-            return new ServiceResult()
+            return new ServiceResult<Empty>()
                     .Do(() => _genericRepo.Insert(playerModel))
                     .Catch<DbUpdateException>("Server error, the player was not registered")
-                    .Catch<DbUpdateConcurrencyException>("Server error, the player was not registered") as ServiceResult;
+                    .Catch<DbUpdateConcurrencyException>("Server error, the player was not registered");
         }
     }
 }

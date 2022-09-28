@@ -1,5 +1,4 @@
 ﻿using DixitOnline.DataAccess.Context;
-using DixitOnline.Models.RoomData;
 using DixitOnline.ServiceResulting;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,37 +18,22 @@ namespace DixitOnline.DataAccess
             _context = context;
         }
 
-        public ServiceResult<TEntity> Insert(TEntity model)
+        public ServiceResult<Empty> Insert(TEntity model)
         {
             try
             {
                 var a = _context.Set<TEntity>().Add(model);
                 _context.SaveChanges();
 
-                return new ServiceResult<TEntity>().Success();
+                return new ServiceResult<Empty>().Success();
             } 
             catch(Exception ex)
             {
-                return new ServiceResult<TEntity> { Exception = ex }.Fail();
+                return new ServiceResult<Empty> { Exception = ex }.Fail();
             }
         }
 
-        public ServiceResult<TEntity> InsertAndReturn(TEntity model)
-        {
-            try
-            {
-                _context.Set<TEntity>().Add(model);
-                _context.SaveChanges();
-
-                return new ServiceResult<TEntity>(model).Success();
-            }
-            catch (Exception ex)
-            {
-                return new ServiceResult<TEntity> { Exception = ex }.Fail();
-            }
-        }
-
-        public async Task<ServiceResult<int?>> Max(Expression<Func<TEntity, int>> command)
+        public async Task<ServiceResult<TScope>> Max<TScope>(Expression<Func<TEntity, TScope>> command)
         {
             try
             {
@@ -57,34 +41,34 @@ namespace DixitOnline.DataAccess
 
                 if(!dbSet.Any())
                 {
-                    return new ServiceResult<int?>(null).Success();
+                    return new ServiceResult<TScope>(default(TScope)).Success();
                 }
 
                 var result = await dbSet.MaxAsync(command);
 
-                return new ServiceResult<int?>(result).Success();
+                return new ServiceResult<TScope>(result).Success();
             }
             catch (Exception ex)
             {
-                return new ServiceResult<int?> { Exception = ex }.Fail();
+                return new ServiceResult<TScope> { Exception = ex }.Fail();
             }
         }
 
-        public async Task<AbstractServiceResult> First(Expression<Func<TEntity, bool>> command)
+        public async Task<ServiceResult<TEntity>> First(Expression<Func<TEntity, bool>> command)
         {
             try
             {
                 var result = await _context.Set<TEntity>().FirstAsync(command);
 
-                return new GenericServiceResult<TEntity>(result).Success();
+                return new ServiceResult<TEntity>(result).Success();
             }
             catch (InvalidOperationException ex)
             {
-                return new GenericServiceResult<TEntity> { Exception = ex }.Fail();
+                return new ServiceResult<TEntity> { Exception = ex }.Fail();
             }
             catch (Exception ex)
             {
-                return new GenericServiceResult<TEntity> { Exception = ex }.Fail();
+                return new ServiceResult<TEntity> { Exception = ex }.Fail();
             }
         }
     }

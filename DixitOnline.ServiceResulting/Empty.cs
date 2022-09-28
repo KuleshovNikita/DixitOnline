@@ -1,4 +1,4 @@
 ﻿namespace DixitOnline.ServiceResulting
 {
-    public class EmptyResult { }
+    public class Empty { }
 }

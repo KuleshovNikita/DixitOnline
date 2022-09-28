@@ -26,19 +26,21 @@ namespace DixitOnline.Api.Controllers
 
                 if(!res.IsSuccessful)
                 {
-                    return new GenericServiceResult<RoomModel>();
+                    return new ServiceResult<RoomModel>();
                 }
 
                 roomCode = res.Value;
             }
 
-            var result = new GenericServiceResult<string>()
-                        .Do(() => _roomService.CreateRoom(roomCode)) as ServiceResult<RoomModel>;
+            //TODO возвращать не пустоту, а комнату
+            var result = new ServiceResult<Empty>()
+                            .Do(() => _roomService.CreateRoom(roomCode));
 
+            //TODO хуй знает зачем
             var room = new RoomModel
             {
-                RoomCode = result.Value.RoomCode,
-                RoomId = (_roomService.First(r => r.RoomCode == result.Value.RoomCode) as ServiceResult<RoomModel>).Value.RoomId
+                RoomCode = roomCode,
+                RoomId = _roomService.First(r => r.RoomCode == roomCode).Value.RoomId
             };
 
             return result;

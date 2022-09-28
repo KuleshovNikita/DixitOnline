@@ -24,12 +24,12 @@ namespace DixitOnline.Business.Services
         public ServiceResult<string> GenerateRoomCode()
         {
             var repoResult =
-                new GenericServiceResult<int>()
-                    .Do(() => _genericRepo.Max(x => x.RoomId).Result) as ServiceResult<int?>;
+                new ServiceResult<int?>()
+                    .Do(() => _genericRepo.Max<int?>(x => x.RoomId).Result);
 
             if(!repoResult.IsSuccessful)
             {
-                return (ServiceResult<string>) new GenericServiceResult<string>
+                return new ServiceResult<string>
                 {
                     Exception = repoResult.Exception
                 }
@@ -40,7 +40,7 @@ namespace DixitOnline.Business.Services
 
             var roomCode = new CaesarEncryption().Encrypt(key);
 
-            return new GenericServiceResult<string>(roomCode).Success() as ServiceResult<string>;
+            return new ServiceResult<string>(roomCode).Success();
         }
 
         private string GenerateUniqueKey(int? value)
@@ -56,15 +56,16 @@ namespace DixitOnline.Business.Services
             return normalisedKey;
         }
 
-        public AbstractServiceResult CreateRoom(string roomCode)
-            => new GenericServiceResult<string>(roomCode)
-                .Do(() => _genericRepo.InsertAndReturn(new RoomModel { RoomCode = roomCode } ))
+        //TODO не будет работать, нужно возвращать код комнаты
+        public ServiceResult<Empty> CreateRoom(string roomCode)
+            => new ServiceResult<Empty>()
+                .Do(() => _genericRepo.Insert(new RoomModel { RoomCode = roomCode } ))
                 .Catch<DbUpdateException>("Server error, the room was not created")
                 .Catch<DbUpdateConcurrencyException>("Server error, the room was not created")
                 .Catch<Exception>("Unknown error, can't create a room");
 
-        public AbstractServiceResult First(Expression<Func<RoomModel, bool>> command)
-            => new GenericServiceResult<RoomModel>()
+        public ServiceResult<RoomModel> First(Expression<Func<RoomModel, bool>> command)
+            => new ServiceResult<RoomModel>()
                 .Do(() => _genericRepo.First(command).Result)
                 .Catch<InvalidOperationException>("No room with specified code was found");
     }

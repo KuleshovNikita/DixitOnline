@@ -2,18 +2,15 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System;
-using DixitOnline.Models.RoomData;
 
 namespace DixitOnline.DataAccess
 {
     public interface IGenericRepository<TEntity>
     {
-        AbstractServiceResult Insert(TEntity model);
+        ServiceResult<Empty> Insert(TEntity model);
 
-        AbstractServiceResult InsertAndReturn(TEntity model);
+        Task<ServiceResult<TEntity>> First(Expression<Func<TEntity, bool>> command);
 
-        Task<AbstractServiceResult> First(Expression<Func<TEntity, bool>> command);
-
-        Task<AbstractServiceResult> Max(Expression<Func<TEntity, int>> command);
+        Task<ServiceResult<TScope>> Max<TScope>(Expression<Func<TEntity, TScope>> command);
     }
 }
